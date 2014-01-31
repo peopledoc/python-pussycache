@@ -39,7 +39,11 @@ False
 """
 
 from pussycache.cache import BaseCacheBackend
-from django.conf import settings
+try:
+    from django.conf import settings
+except ImportError:
+    raise ImportError("You need to install django \
+(eg: pip install django) to use this backend")
 
 
 class DjangoCacheBackend(BaseCacheBackend):

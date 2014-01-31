@@ -39,8 +39,12 @@ Implement a base CacheBackend API.
 >>> cache.clear()
 
 """
+try:
+    import redis
+except ImportError:
+    raise ImportError("You need to get a running instance of redis-server \
+and the python redis connector (eg: pip install redis) to use this backend")
 
-import redis
 import pickle
 from pussycache.cache import BaseCacheBackend
 
