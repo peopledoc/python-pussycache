@@ -7,7 +7,7 @@ from .cache import cachedecorator, invalidator, CacheWrapper
 
 class BaseProxy(object):
     """
-    :param backend: is a child class of ``novacoreclient.BaseBackend``
+    :param backend: is the class you want to cache
 
     :param backend_args: a list or a tuple of args to be passed to backend when
                          instanciated
@@ -30,6 +30,7 @@ class BaseProxy(object):
 
         self.cache = cache
         backend_kwargs = backend_kwargs or {}
+        backend_args = backend_args or ()
         backend_kwargs.update({"cached_meths": cached_methods,
                                "cache_decorator": cachedecorator,
                                "invalidate_methods": invalidate_methods,
