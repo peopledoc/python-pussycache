@@ -56,7 +56,7 @@ def namespace_packages(project_name):
     return package_list
 
 
-NAME = 'python-pussy-cache'
+NAME = 'pussycache'
 version = read_relative_file('VERSION').strip()
 readme = read_relative_file('README.md')
 requirements = []

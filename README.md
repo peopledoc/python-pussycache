@@ -76,3 +76,11 @@ cachedinstance.cache.get("mykey")
 cachedinstance.cache.get("mykey")
 #the value is gone from the cache
 ```
+
+
+Tests
+-----
+
+To run test, just install tox with ``pip install tox`` and run
+
+    tox
