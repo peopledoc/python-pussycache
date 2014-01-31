@@ -1,39 +1,3 @@
-"""
-Implement a base CacheBackend API.
-
->>> from pussycache.cache import BaseCacheBackend
->>> cache = BaseCacheBackend(100)
->>> cache.set('my_key', 'hello, world!', 3)
->>> cache.get('my_key')
-'hello, world!'
->>> import time
->>> time.sleep(3)
->>> cache.get('my_key')
-
->>> cache.get('my_key', 'has expired')
-'has expired'
->>> cache.set('add_key', 'Initial value')
->>> cache.add('add_key', 'New value')
->>> cache.get('add_key')
-'Initial value'
->>> cache.delete('add_key')
-
->>> cache.get('add_key')
-
->>> cache.delete('add_key')
-
->>> cache.set("hello", "world")
->>> cache.clear()
-
->>> cache.get("hello")
-
->>> cache.set_many({'a': 1, 'b': 2, 'c': 3})
->>> cache.get_many(['a', 'b', 'c'])['a']
-1
->>> cache.delete_many(['a', 'b', 'c'])
->>> cache.get('a')
-
-"""
 import calendar
 import datetime
 from functools import wraps
@@ -44,7 +8,42 @@ def get_now_timestamp():
 
 
 class BaseCacheBackend(object):
-    """ The Base Cache implementation"""
+    """ The Base Cache implementation
+
+    Implement a base CacheBackend API.
+    >>> from pussycache.cache import BaseCacheBackend
+    >>> cache = BaseCacheBackend(100)
+    >>> cache.set('my_key', 'hello, world!', 3)
+    >>> cache.get('my_key')
+    'hello, world!'
+    >>> import time
+    >>> time.sleep(3)
+    >>> cache.get('my_key')
+    >>> cache.get('my_key', 'has expired')
+    'has expired'
+    >>> cache.set('add_key', 'Initial value')
+    >>> cache.add('add_key', 'New value')
+    >>> cache.get('add_key')
+    'Initial value'
+    >>> cache.delete('add_key')
+
+    >>> cache.get('add_key')
+
+    >>> cache.delete('add_key')
+
+    >>> cache.set("hello", "world")
+    >>> cache.clear()
+
+    >>> cache.get("hello")
+
+    >>> cache.set_many({'a': 1, 'b': 2, 'c': 3})
+    >>> cache.get_many(['a', 'b', 'c'])['a']
+    1
+    >>> cache.delete_many(['a', 'b', 'c'])
+    >>> cache.get('a')
+
+
+    """
 
     def __init__(self, timeout, *args, **kwargs):
         self.timeout = timeout
@@ -93,7 +92,7 @@ class BaseCacheBackend(object):
 
     def set_many(self, valuesdict, timeout=None):
         expired = get_now_timestamp() + (timeout or self.timeout)
-        for k, v in valuesdict.iteritems():
+        for k, v in valuesdict.items():
             self.store[k] = {"value": v,
                              "timeout": expired}
 

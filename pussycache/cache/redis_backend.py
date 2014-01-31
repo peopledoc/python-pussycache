@@ -46,6 +46,7 @@ except ImportError:
 and the python redis connector (eg: pip install redis) to use this backend")
 
 import pickle
+pickle.DEFAULT_PROTOCOL = 2
 from pussycache.cache import BaseCacheBackend
 
 
@@ -81,7 +82,7 @@ class RedisCacheBackend(BaseCacheBackend):
             self.set(key, value, timeout=timeout)
 
     def set_many(self, valuesdict, timeout=None):
-        for k, v in valuesdict.iteritems():
+        for k, v in valuesdict.items():
             self.set(k, v, timeout=timeout)
 
     def get_many(self, keys, timeout=None):
