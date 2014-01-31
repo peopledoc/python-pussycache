@@ -11,6 +11,8 @@ define, Python-pussy-cache will cache the results of methods you have
 define and will also manage the cache invalidation by timestamp or
 with methods you have defined.
 
+[![Build Status](https://travis-ci.org/novapost/python-pussy-cache.png?branch=master)](https://travis-ci.org/novapost/python-pussy-cache)
+
 Here is an example to make the thing clearer
 
 ```python
