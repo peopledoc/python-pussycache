@@ -7,7 +7,7 @@ CFG_DIR = $(ROOT_DIR)/etc
 DATA_DIR = $(ROOT_DIR)/var
 VIRTUALENV_DIR = $(ROOT_DIR)/lib/virtualenv
 PIP = $(VIRTUALENV_DIR)/bin/pip
-PROJECT = pussy_cache
+PROJECT = pussycache
 NOSE = $(BIN_DIR)/nosetests
 
 develop: virtualenv bin_dir directories

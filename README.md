@@ -15,8 +15,8 @@ Here is an example to make the thing clearer
 
 ```python
 import time
-from pussy_cache.proxy import BaseProxy
-from pussy_cache.cache import BaseCacheBackend
+from pussycache.proxy import BaseProxy
+from pussycache.cache import BaseCacheBackend
 # Here is a simple class where some methods need to be cached
 
 class MyClass(object):
@@ -36,7 +36,7 @@ cache_proxy = BaseProxy(backend=MyClass, cache=cache,
              cached_methods="a_long_task",
              invalidate_methods={"forget_about_time": ["a_long_task"]})
 
-cachedinstance = cache_proxy.backend 
+cachedinstance = cache_proxy.backend
 # your cachedinstance is now
 # ready to use. It will just work like a regular MyClass object
 
@@ -56,4 +56,12 @@ print cachedinstance.forget_about_time()
 print cachedinstance.a_long_task(10)
 # 10 seconds later
 10
+```
+
+Of course, If you need direct access to the cache backend, you can
+call it directly. Let's say you need to invalidate ALL the cache :
+
+```python
+
+cachedinstance.cache.clear()
 ```

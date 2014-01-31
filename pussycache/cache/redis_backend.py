@@ -1,7 +1,7 @@
 """
 Implement a base CacheBackend API.
 
->>> from pussy_cache.cache.redis_backend import RedisCacheBackend
+>>> from pussycache.cache.redis_backend import RedisCacheBackend
 >>> cache = RedisCacheBackend(100)
 >>> cache.set('my_key', 'hello, world!', 3)
 >>> cache.get('my_key')
@@ -42,7 +42,7 @@ Implement a base CacheBackend API.
 
 import redis
 import pickle
-from pussy_cache.cache import BaseCacheBackend
+from pussycache.cache import BaseCacheBackend
 
 
 class RedisCacheBackend(BaseCacheBackend):

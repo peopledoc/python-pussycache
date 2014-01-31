@@ -1,7 +1,7 @@
 """
 Implement a base CacheBackend API.
 
->>> from pussy_cache.cache import BaseCacheBackend
+>>> from pussycache.cache import BaseCacheBackend
 >>> cache = BaseCacheBackend(100)
 >>> cache.set('my_key', 'hello, world!', 3)
 >>> cache.get('my_key')

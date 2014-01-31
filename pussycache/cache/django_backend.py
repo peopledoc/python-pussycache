@@ -1,6 +1,6 @@
 """
 A test implementation of Django Cache framework.
-from pussy_cache.cache.django_backend import DjangoCacheBackend
+from pussycache.cache.django_backend import DjangoCacheBackend
 >>> cache = DjangoCacheBackend(100,
 ...    'django.core.cache.backends.locmem.LocMemCache',
 ...    'cache-proof-of-concept')
@@ -38,7 +38,7 @@ False
 >>> cache.clear()
 """
 
-from pussy_cache.cache import BaseCacheBackend
+from pussycache.cache import BaseCacheBackend
 from django.conf import settings
 
 
