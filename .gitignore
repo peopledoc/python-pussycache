@@ -1,0 +1,31 @@
+# Local binaries (generated during install).
+/bin
+
+# Local configuration (generated from templates).
+#/etc  # Let's start with static configuration.
+
+# External libraries (fetched and built).
+/lib
+
+# External source files (managed with their own VCS).
+/src/*
+
+# Data files.
+/var
+
+# Python files.
+*.pyc
+*.egg-info/
+.coverage
+*.egg/
+
+# Compiled gettext catalogs.
+*.mo
+
+# documentation builds
+docs/_build
+
+# Editors' temporary files.
+.*.swp
+.*.un~
+~*

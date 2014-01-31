@@ -1,0 +1,9 @@
+# Python requirements for development environment.
+
+# Tests dependencies.
+coverage
+nose
+nosexcover
+rednose==0.4.1
+django
+redis

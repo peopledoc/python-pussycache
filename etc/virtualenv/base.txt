@@ -1,0 +1,10 @@
+# Pip requirements for a base virtualenv.
+# Needs to be run before any other requirements, so that pip and setuptools are
+# installed with expected versions.
+
+# Index and pip options.
+--index-url=http://pypicache.dev.novapost.net/simple
+
+# Installers.
+pip==1.4.1
+setuptools==1.1.7
