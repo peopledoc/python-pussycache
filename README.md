@@ -65,3 +65,14 @@ call it directly. Let's say you need to invalidate ALL the cache :
 
 cachedinstance.cache.clear()
 ```
+
+The same apply if you need to call directly the cache:
+
+```python
+cachedinstance.cache.set("mykey", "my value", 10)
+cachedinstance.cache.get("mykey")
+"my value"
+#and 10 seconds later:
+cachedinstance.cache.get("mykey")
+#the value is gone from the cache
+```
