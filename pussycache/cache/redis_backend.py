@@ -92,4 +92,5 @@ class RedisCacheBackend(BaseCacheBackend):
         return response
 
     def delete_many(self, keys):
-        self.db.delete(*keys)
+        if keys:
+            self.db.delete(*keys)
