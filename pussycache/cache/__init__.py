@@ -108,7 +108,7 @@ class BaseCacheBackend(object):
 def cachedecorator(method):
     @wraps(method)
     def wrapper(*args, **kwargs):
-        instance = method.im_self
+        instance = method.__self__
         if hasattr(instance, "cache"):
             cache = instance.cache
         else:
