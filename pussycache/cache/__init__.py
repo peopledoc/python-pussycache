@@ -42,7 +42,7 @@ class BaseCacheBackend(object):
     >>> cache.delete_many(['a', 'b', 'c'])
     >>> cache.get('a')
 
-
+    >>> cache.clear()
     """
 
     def __init__(self, timeout, *args, **kwargs):
@@ -55,7 +55,6 @@ class BaseCacheBackend(object):
 
     def set(self, key, value, timeout=None):
         """Add a key/value to the store """
-
         expired = get_now_timestamp() + (timeout or self.timeout)
         self.store[key] = {"value": value,
                            "timeout": expired}
@@ -85,9 +84,8 @@ class BaseCacheBackend(object):
 
     def add(self, key, value, timeout=None):
         """Add a key/value to the store unless this key already exists """
-        try:
-            self.get(key)
-        except KeyError:
+        val = self.get(key)
+        if val is None:
             self.set(key, value, timeout=timeout)
 
     def set_many(self, valuesdict, timeout=None):
