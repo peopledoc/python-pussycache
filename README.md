@@ -11,14 +11,10 @@ define, Python-pussy-cache will cache the results of methods you have
 define and will also manage the cache invalidation by timestamp or
 with methods you have defined.
 
-[![Build Status](https://secure.travis-ci.org/mozilla-services/circus.png?branch=master)](https://travis-ci.org/novapost/python-pussycache)
-.. image:: https://secure.travis-ci.org/novapost/python-pussycache.png?branch=master
-   :alt: Build Status
-   :target: https://secure.travis-ci.org/novapost/python-pussycache
-.. image:: https://pypip.in/v/python-pussycache/badge.png
-   :target: https://crate.io/packages/python-pussycache/
-.. image:: https://pypip.in/d/python-pussycache/badge.png
-   :target: https://crate.io/packages/python-pussycache/
+[![Build Status](https://secure.travis-ci.org/novapost/python-pussycache.png?branch=master)](https://travis-ci.org/novapost/python-pussycache)
+[![python-pussycache](https://pypip.in/v/python-pussycache/badge.png)](https://crate.io/packages/python-pussycache/)
+[![python-pussycache](https://pypip.in/d/python-pussycache/badge.png)](https://crate.io/packages/python-pussycache/)
+
 
 Here is an example to make the thing clearer
 
