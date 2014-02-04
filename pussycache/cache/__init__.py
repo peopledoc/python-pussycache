@@ -105,85 +105,38 @@ class BaseCacheBackend(object):
             self.delete(elem)
 
 
-def cachedecorator(method):
+def cachedecorator(method, cache):
     @wraps(method)
     def wrapper(*args, **kwargs):
-        instance = method.__self__
-        if hasattr(instance, "cache"):
-            cache = instance.cache
-        else:
-            cache = None
-        if cache:
-            key = "".join((method.__name__, str(args)))
-            result = cache.get(key)
-            if result is None:
-                result = method(*args)
-                cache.set(key, result)
+        key = "".join((method.__name__, str(args)))
+        result = cache.get(key)
+        if result is None:
+            result = method(*args)
+            cache.set(key, result)
 
-            func_list = cache.get("methods_list")
-            if func_list is None:
-                func_list = []
-            if key not in func_list:
-                func_list.append(key)
-            cache.set("methods_list", func_list, 3600)
-            return result
-    return wrapper
-
-
-def invalidator(method):
-    @wraps(method)
-    def wrapper(*args, **kwargs):
-        instance = method.im_self
-        if hasattr(instance, "invalidator"):
-            invalidator = instance.invalidate_meths[method.__name__]
-        else:
-            invalidator = None
-        if invalidator and hasattr(instance, "cache"):
-            func_list = instance.cache.get("methods_list")
-            if func_list:
-                remove_list = []
-                for i in invalidator:
-                    remove_list += [f for f in func_list if f.startswith(i)]
-                instance.cache.delete_many(remove_list)
-                func_list = [
-                    elem for elem in func_list if elem not in remove_list]
-                instance.cache.set("methods_list", func_list)
-        result = method(*args)
+        func_list = cache.get("methods_list")
+        if func_list is None:
+            func_list = []
+        if key not in func_list:
+            func_list.append(key)
+        cache.set("methods_list", func_list, 3600)
         return result
     return wrapper
 
 
-class CacheWrapper(object):
-    """
-    A mixin decorating children class method with a decorator.
+def invalidator(method, invalidator_methods, cache):
+    @wraps(method)
+    def wrapper(*args, **kwargs):
+        func_list = cache.get("methods_list")
+        if func_list:
+            remove_list = []
+            for i in invalidator:
+                remove_list += [f for f in func_list if f.startswith(i)]
+            cache.delete_many(remove_list)
+            func_list = [
+                elem for elem in func_list if elem not in remove_list]
+            cache.set("methods_list", func_list)
+        result = method(*args)
+        return result
+    return wrapper
 
-
-    :param cached_meths: a list of method to be decorated
-
-    :param decorator: the decorator tu use on decorated_meths
-    """
-
-    def __init__(self, *args, **kwargs):
-        self.cached_meths = kwargs.pop('cached_meths')
-        self.cache_decorator = kwargs.pop('cache_decorator')
-        self.invalidate_meths = kwargs.pop('invalidate_methods')
-        self.invalidator = kwargs.pop('invalidator')
-        super(CacheWrapper, self).__init__(*args, **kwargs)
-
-        if self.cached_meths and self.cache_decorator:
-            for a in dir(self):
-                if not a.startswith("_"):
-                    if callable(getattr(self, a)) and\
-                            a in self.cached_meths:
-                        setattr(self,
-                                a,
-                                self.cache_decorator(getattr(self, a)))
-
-        if self.invalidate_meths and self.invalidator:
-            for a in dir(self):
-                if not a.startswith("_"):
-                    if callable(getattr(self, a)) and\
-                            a in self.invalidate_meths:
-                        setattr(self,
-                                a,
-                                self.invalidator(getattr(self, a)))
