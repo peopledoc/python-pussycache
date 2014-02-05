@@ -12,8 +12,8 @@ define and will also manage the cache invalidation by timestamp or
 with methods you have defined.
 
 [![Build Status](https://secure.travis-ci.org/novapost/python-pussycache.png?branch=master)](https://travis-ci.org/novapost/python-pussycache)
-[![python-pussycache](https://pypip.in/v/python-pussycache/badge.png)](https://crate.io/packages/python-pussycache/)
-[![python-pussycache](https://pypip.in/d/python-pussycache/badge.png)](https://crate.io/packages/python-pussycache/)
+[![python-pussycache](https://pypip.in/v/pussycache/badge.png)](https://crate.io/packages/pussycache/)
+[![python-pussycache](https://pypip.in/d/pussycache/badge.png)](https://crate.io/packages/pussycache/)
 
 
 Here is an example to make the thing clearer
@@ -37,11 +37,11 @@ class MyClass(object):
 
 cache = BaseCacheBackend(30)
 
-cache_proxy = BaseProxy(backend=MyClass, cache=cache,
-             cached_methods="a_long_task",
+cache_proxy = BaseProxy(MyClass(), cache=cache,
+             cached_methods=["a_long_task"],
              invalidate_methods={"forget_about_time": ["a_long_task"]})
 
-cachedinstance = cache_proxy.backend
+cachedinstance = cache_proxy
 # your cachedinstance is now
 # ready to use. It will just work like a regular MyClass object
 
@@ -68,17 +68,17 @@ call it directly. Let's say you need to invalidate ALL the cache :
 
 ```python
 
-cachedinstance.cache.clear()
+cachedinstance._cache.clear()
 ```
 
 The same apply if you need to call directly the cache:
 
 ```python
-cachedinstance.cache.set("mykey", "my value", 10)
-cachedinstance.cache.get("mykey")
+cachedinstance.\_cache.set("mykey", "my value", 10)
+cachedinstance.\_cache.get("mykey")
 "my value"
 #and 10 seconds later:
-cachedinstance.cache.get("mykey")
+cachedinstance.\_cache.get("mykey")
 #the value is gone from the cache
 ```
 
