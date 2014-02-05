@@ -108,7 +108,8 @@ class BaseCacheBackend(object):
 def cachedecorator(method, cache):
     @wraps(method)
     def wrapper(*args, **kwargs):
-        key = "".join((method.__name__, str(args)))
+
+        key = "".join((method.__name__, str(args), str(kwargs)))
         result = cache.get(key)
         if result is None:
             result = method(*args)
@@ -121,6 +122,7 @@ def cachedecorator(method, cache):
             func_list.append(key)
         cache.set("methods_list", func_list, 3600)
         return result
+
     return wrapper
 
 
@@ -130,12 +132,12 @@ def invalidator(method, invalidator_methods, cache):
         func_list = cache.get("methods_list")
         if func_list:
             remove_list = []
-            for i in invalidator:
+            for i in invalidator_methods:
                 remove_list += [f for f in func_list if f.startswith(i)]
             cache.delete_many(remove_list)
             func_list = [
                 elem for elem in func_list if elem not in remove_list]
             cache.set("methods_list", func_list)
-        result = method(*args)
+        result = method(*args, **kwargs)
         return result
     return wrapper

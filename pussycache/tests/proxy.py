@@ -15,6 +15,10 @@ class Example(object):
     def delete_user(self, user):
         self.users = [usr for usr in self.users if usr is not user]
 
+    def get_user_with_kwargs(self, user=None):
+        if user in ["Adam", "Bob", "Peter"]:
+            return user
+
 
 class TestProxy(TestCase):
 
@@ -23,10 +27,20 @@ class TestProxy(TestCase):
         self.proxy = BaseProxy(
             self.proxied_object,
             cache=BaseCacheBackend(300),
-            invalidate_methods={"delete_user": ["get_users"]},
-            cached_methods=["get_users"]
+            invalidate_methods={"delete_user": ["get_users",
+                                                "get_user_with_kwargs"]},
+            cached_methods=["get_users", "get_user_with_kwargs"]
         )
 
     def test_in_the_cache(self):
         users = self.proxy.get_users()
-        self.assertEqual(users, self.proxy._cache.get("get_users()"))
+        self.assertEqual(users, self.proxy._cache.get("get_users(){}"))
+        self.backend = self.proxy
+        self.backend.get_user_with_kwargs(user="Bob")
+        self.assertEqual(
+            "Bob",
+            self.backend._cache.get("get_user_with_kwargs(){'user': 'Bob'}"))
+        self.backend.delete_user("Bob")
+        self.assertEqual(
+            None,
+            self.backend._cache.get("get_user_with_kwargs(){'user': 'Bob'}"))
