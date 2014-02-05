@@ -139,4 +139,3 @@ def invalidator(method, invalidator_methods, cache):
         result = method(*args)
         return result
     return wrapper
-

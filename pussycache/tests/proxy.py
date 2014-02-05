@@ -20,11 +20,12 @@ class TestProxy(TestCase):
 
     def setUp(self):
         self.proxied_object = Example()
-        self.proxy = BaseProxy(self.proxied_object,
+        self.proxy = BaseProxy(
+            self.proxied_object,
             cache=BaseCacheBackend(300),
             invalidate_methods={"delete_user": ["get_users"]},
             cached_methods=["get_users"]
-            )
+        )
 
     def test_in_the_cache(self):
         users = self.proxy.get_users()

@@ -21,7 +21,7 @@ class BaseProxy(object):
     """
 
     def __init__(self, proxied=None, cache=None, cached_methods=None,
-            invalidate_methods=None):
+                 invalidate_methods=None):
 
         self._proxied = proxied
         self._cache = cache
@@ -35,14 +35,16 @@ class BaseProxy(object):
         for method in self._cached_methods:
             proxied_method = getattr(self._proxied, method)
             if ismethod(proxied_method):
-                setattr(self, method, cachedecorator(proxied_method, self._cache))
+                setattr(self, method,
+                        cachedecorator(proxied_method, self._cache))
 
         # Invalidators methods
         for method in self._invalidate_methods:
             proxied_method = getattr(self._proxied, method)
             if ismethod(proxied_method):
-                setattr(self, method, invalidator(proxied_method,
-                    self._invalidate_methods, self._cache))
+                setattr(self, method, invalidator(
+                        proxied_method,
+                        self._invalidate_methods, self._cache))
 
     def __getattr__(self, value):
         return getattr(self._proxied, value)
