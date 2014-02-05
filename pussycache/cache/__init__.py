@@ -62,6 +62,7 @@ class BaseCacheBackend(object):
     def get(self, key, default_value=None):
         """return the value corresponding to the key or None if
         expired or does not exist """
+
         try:
             value = self.store[key]
         except KeyError:
@@ -75,7 +76,6 @@ class BaseCacheBackend(object):
 
     def delete(self, key):
         """Remove a key/value from the store """
-
         try:
             self.store.pop(key)
         except KeyError:
@@ -106,13 +106,13 @@ class BaseCacheBackend(object):
 
 
 def cachedecorator(method, cache):
+
     @wraps(method)
     def wrapper(*args, **kwargs):
-
         key = "".join((method.__name__, str(args), str(kwargs)))
         result = cache.get(key)
         if result is None:
-            result = method(*args)
+            result = method(*args, **kwargs)
             cache.set(key, result)
 
         func_list = cache.get("methods_list")
@@ -130,9 +130,10 @@ def invalidator(method, invalidator_methods, cache):
     @wraps(method)
     def wrapper(*args, **kwargs):
         func_list = cache.get("methods_list")
+        invalidated_methods = invalidator_methods[method.__name__]
         if func_list:
             remove_list = []
-            for i in invalidator_methods:
+            for i in invalidated_methods:
                 remove_list += [f for f in func_list if f.startswith(i)]
             cache.delete_many(remove_list)
             func_list = [
