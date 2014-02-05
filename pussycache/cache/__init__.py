@@ -114,10 +114,10 @@ def cachedecorator(method):
         else:
             cache = None
         if cache:
-            key = "".join((method.__name__, str(args)))
+            key = "".join((method.__name__, str(args), str(kwargs)))
             result = cache.get(key)
             if result is None:
-                result = method(*args)
+                result = method(*args, **kwargs)
                 cache.set(key, result)
 
             func_list = cache.get("methods_list")
@@ -133,7 +133,7 @@ def cachedecorator(method):
 def invalidator(method):
     @wraps(method)
     def wrapper(*args, **kwargs):
-        instance = method.im_self
+        instance = method.__self__
         if hasattr(instance, "invalidator"):
             invalidator = instance.invalidate_meths[method.__name__]
         else:
@@ -148,7 +148,7 @@ def invalidator(method):
                 func_list = [
                     elem for elem in func_list if elem not in remove_list]
                 instance.cache.set("methods_list", func_list)
-        result = method(*args)
+        result = method(*args, **kwargs)
         return result
     return wrapper
 
