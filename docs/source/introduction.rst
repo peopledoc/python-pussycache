@@ -35,11 +35,11 @@ Here is an example to make the thing clearer
 
     cache = BaseCacheBackend(30)
 
-    cache_proxy = BaseProxy(backend=MyClass, cache=cache,
-                 cached_methods="a_long_task",
+    cache_proxy = BaseProxy(MyClass(), cache=cache,
+                 cached_methods=["a_long_task"],
                  invalidate_methods={"forget_about_time": ["a_long_task"]})
 
-    cachedinstance = cache_proxy.backend
+    cachedinstance = cache_proxy
     # your cachedinstance is now
     # ready to use. It will just work like a regular MyClass object
 
@@ -66,17 +66,17 @@ it directly. Let's say you need to invalidate ALL the cache :
 .. code:: python
 
 
-    cachedinstance.cache.clear()
+    cachedinstance._cache.clear()
 
 The same apply if you need to call directly the cache:
 
 .. code:: python
 
-    cachedinstance.cache.set("mykey", "my value", 10)
-    cachedinstance.cache.get("mykey")
+    cachedinstance._cache.set("mykey", "my value", 10)
+    cachedinstance._cache.get("mykey")
     "my value"
     #and 10 seconds later:
-    cachedinstance.cache.get("mykey")
+    cachedinstance._cache.get("mykey")
     #the value is gone from the cache
 
 Tests
