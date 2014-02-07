@@ -4,11 +4,11 @@ from pussycache.cache.django_backend import DjangoCacheBackend
 >>> cache = DjangoCacheBackend(100,
 ...    'django.core.cache.backends.locmem.LocMemCache',
 ...    'cache-proof-of-concept')
->>> cache.set('my_key', 'hello, world!', 3)
+>>> cache.set('my_key', 'hello, world!', 1)
 >>> cache.get('my_key')
 'hello, world!'
 >>> import time
->>> time.sleep(3)
+>>> time.sleep(1)
 >>> cache.get('my_key')
 
 >>> cache.get('my_key', 'has expired')

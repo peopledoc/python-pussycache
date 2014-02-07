@@ -88,5 +88,5 @@ To run test, just install tox with ``pip install tox`` and run
 
     tox
 
-.. |Build Status| image:: https://travis-ci.org/novapost/python-pussy-cache.png?branch=master
-   :target: https://travis-ci.org/novapost/python-pussy-cache
+.. |Build Status| image:: https://travis-ci.org/novapost/python-pussycache.png?branch=master
+   :target: https://travis-ci.org/novapost/python-pussycache
