@@ -1,5 +1,6 @@
 import calendar
 import datetime
+from collections import OrderedDict
 from functools import wraps
 
 
@@ -13,11 +14,11 @@ class BaseCacheBackend(object):
     Implement a base CacheBackend API.
     >>> from pussycache.cache import BaseCacheBackend
     >>> cache = BaseCacheBackend(100)
-    >>> cache.set('my_key', 'hello, world!', 3)
+    >>> cache.set('my_key', 'hello, world!', 1)
     >>> cache.get('my_key')
     'hello, world!'
     >>> import time
-    >>> time.sleep(3)
+    >>> time.sleep(1)
     >>> cache.get('my_key')
     >>> cache.get('my_key', 'has expired')
     'has expired'
@@ -109,7 +110,9 @@ def cachedecorator(method, cache):
 
     @wraps(method)
     def wrapper(*args, **kwargs):
-        key = "".join((method.__name__, str(args), str(kwargs)))
+        kwgs = OrderedDict(sorted(kwargs.items(), key=lambda x: x[0]))
+        kwgs = list(kwgs.items())
+        key = "".join((method.__name__, str(args), str(kwgs)))
         result = cache.get(key)
         if result is None:
             result = method(*args, **kwargs)
