@@ -1,6 +1,5 @@
 import calendar
 import datetime
-from collections import OrderedDict
 from functools import wraps
 
 
@@ -110,8 +109,7 @@ def cachedecorator(method, cache):
 
     @wraps(method)
     def wrapper(*args, **kwargs):
-        kwgs = OrderedDict(sorted(kwargs.items(), key=lambda x: x[0]))
-        kwgs = list(kwgs.items())
+        kwgs = sorted(kwargs.items(), key=lambda x: x[0])
         key = "".join((method.__name__, str(args), str(kwgs)))
         result = cache.get(key)
         if result is None:
