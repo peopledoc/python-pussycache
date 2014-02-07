@@ -3,11 +3,11 @@ Implement a base CacheBackend API.
 
 >>> from pussycache.cache.redis_backend import RedisCacheBackend
 >>> cache = RedisCacheBackend(100)
->>> cache.set('my_key', 'hello, world!', 3)
+>>> cache.set('my_key', 'hello, world!', 1)
 >>> cache.get('my_key')
 'hello, world!'
 >>> import time
->>> time.sleep(3)
+>>> time.sleep(1)
 >>> cache.get('my_key')
 
 >>> cache.get('my_key', 'has expired')
